@@ -1,0 +1,4 @@
+__pycache__/
+ics_file/
+bot_token.py
+config.py
