@@ -66,7 +66,7 @@ async def Week(interaction: discord.Interaction):
     monday = data.detect_week(today)
     for i in range (0,7):
         list.append(ics.parse_day(str(monday + timedelta(days=i))))
-
+    
     await interaction.response.send_message(data.print_week(list,monday))
     ics.close()
 

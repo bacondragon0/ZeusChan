@@ -43,7 +43,7 @@ class ICS:
             if component.name == "VEVENT" and compare_day(component.get('dtstart'),day):
                 cls = to_class_data(component.get('summary'),component.get('dtstart'),component.get('dtend'))
                 out.classes.append(cls)
-                
+            out.classes = sorted(out.classes, key=lambda x: int(x.begin[:2].replace(":","")))
         return out
 
     def close(self):
