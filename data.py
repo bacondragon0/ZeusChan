@@ -17,7 +17,13 @@ class Day:
 
 def print_day(Day):
     out = "The day is " + Day.day + "\n"
-    if len(Day.classes) < 1: return (out + "There are no classes today!\n").replace("-","/")
+    if len(Day.classes) < 1:
+        dt = datetime.datetime.strptime(Day.day,"%Y-%m-%d")
+        if dt.date() < datetime.datetime.now().date():
+            return (out + "Cannot retrieve the planning of an elapsed day\n").replace("-","/")
+        if datetime.datetime.strftime(dt,"%A") in ["Saturday","Sunday"]:
+            return (out + "No classes on " + str(datetime.datetime.strftime(dt,"%A")) + "!\n").replace("-","/")
+        return (out + "There are no classes this day!\n").replace("-","/")
 
     for c in Day.classes:
         out = out + str(f"{c.subject}: {c.begin} — {c.end}\n")

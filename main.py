@@ -39,8 +39,8 @@ class Client(commands.Bot):
         if message.author == client.user:
             return
 
-        if message.content.startswith('$hello'):
-            await message.channel.send('Hello!')
+        if message.content.startswith('6'):
+            await message.channel.send('7') # Integral feature
 
 intents = discord.Intents.default()
 intents.message_content = True
