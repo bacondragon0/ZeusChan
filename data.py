@@ -8,8 +8,8 @@ class Class:
     subject: str 
     begin: list
     end: list
-    exam: bool
-
+    exam: bool # Deprecated
+ 
 @dataclass
 class Day:
     day: str
@@ -17,7 +17,7 @@ class Day:
 
 def print_day(Day):
     out = "The day is " + Day.day + "\n"
-    if len(Day.classes) < 1: return out + "There are no classes today!\n"
+    if len(Day.classes) < 1: return (out + "There are no classes today!\n").replace("-","/")
 
     for c in Day.classes:
         out = out + str(f"{c.subject}: {c.begin} — {c.end}\n")

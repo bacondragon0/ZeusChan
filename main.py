@@ -58,6 +58,15 @@ async def Today(interaction: discord.Interaction):
     await interaction.response.send_message(data.print_day(result))
     ics.close()
 
+@client.tree.command(name="tomorrow",description="See tomorrow's planning", guild=GUILD_ID)
+async def Today(interaction: discord.Interaction):
+    ics = read_file.ICS(config.FILE_PATH)
+    ics.open()
+    result = ics.parse_day(str(today + timedelta(days=1)))
+
+    await interaction.response.send_message(data.print_day(result))
+    ics.close()
+
 @client.tree.command(name="week",description="See the week's planning", guild=GUILD_ID)
 async def Week(interaction: discord.Interaction):
     ics = read_file.ICS(config.FILE_PATH)
@@ -70,10 +79,24 @@ async def Week(interaction: discord.Interaction):
     await interaction.response.send_message(data.print_week(list,monday))
     ics.close()
 
-@client.tree.command(name="planning",description="See the day's planning", guild=GUILD_ID)
+@client.tree.command(name="planning",description="See a day's planning", guild=GUILD_ID)
 async def Planning(interaction: discord.Interaction, month: str, day: str):
     ics = read_file.ICS(config.FILE_PATH)
     ics.open()
+
+    if not(31 >= int(day) >= 1) or not(12 >= int(month) >= 1): 
+        await interaction.response.send_message("Incorrect date")
+        ics.close()
+        return
+    
+    if (len(month) == 0 or len(day) == 0) or (len(month) > 2 or len(day) > 2): 
+        await interaction.response.send_message("Incorrect date")
+        ics.close()
+        return
+    
+    if len(month) == 1: month = "0" + month
+    if len(day) == 1: day = "0" + day
+
     result = ics.parse_day(str(f"{year}{month}-{day}"))
 
     await interaction.response.send_message(data.print_day(result))
