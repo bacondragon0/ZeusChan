@@ -33,8 +33,8 @@ class ICS:
         for component in self.ics.walk():
             if component.name == "VEVENT" and compare_day(component.get('dtstart'),day):
                 print(component.get('summary'))
-                print(component.get('dtstart') + timedelta(hours=2))
-                print(component.get('dtend') + timedelta(hours=2))
+                print(component.get('dtstart'))
+                print(component.get('dtend'))
                 print(component.get('dtstamp'))
 
     def parse_day(self,day):

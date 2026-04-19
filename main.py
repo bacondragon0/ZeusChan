@@ -58,6 +58,18 @@ async def Today(interaction: discord.Interaction):
     await interaction.response.send_message(data.print_day(result))
     ics.close()
 
+@client.tree.command(name="week",description="See the week's planning", guild=GUILD_ID)
+async def Week(interaction: discord.Interaction):
+    ics = read_file.ICS(config.FILE_PATH)
+    ics.open()
+    list = []
+    monday = data.detect_week(today)
+    for i in range (0,7):
+        list.append(ics.parse_day(str(monday + timedelta(days=i))))
+
+    await interaction.response.send_message(data.print_week(list,monday))
+    ics.close()
+
 @client.tree.command(name="planning",description="See the day's planning", guild=GUILD_ID)
 async def Planning(interaction: discord.Interaction, month: str, day: str):
     ics = read_file.ICS(config.FILE_PATH)
@@ -76,7 +88,7 @@ async def Planning(interaction: discord.Interaction, month: str, day: str):
 #    await interaction.response.send_message("printed vals in terminal")
 #    ics.close()
 
-@tasks.loop(seconds=360)
+@tasks.loop(seconds=config.CLOCK)
 async def update_ics():
     try: os.remove(config.FILE_PATH)
     except FileNotFoundError: pass
